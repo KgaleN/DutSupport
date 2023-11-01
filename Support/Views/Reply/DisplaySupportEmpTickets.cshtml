@@ -1,0 +1,70 @@
+﻿@model Support.Models.SupportEmployee
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="font-weight: 600;" scope="col">sender</th>
+            <th style="font-weight: 600;" scope="col">subject</th>
+            <th style="font-weight: 400;color: rgba(0, 0, 0, 0.60);" scope="col">content</th>
+            <th style="font-weight: 600;" scope="col">Date submited</th>
+        </tr>
+    </thead>
+    <tbody> 
+        
+
+        @foreach(var ticket in Model.AssignedTickets)
+        {
+            
+                <form asp-action="CloseTicket">
+               <input type="hidden" name="ticketId" value="@ticket.Id" />
+               
+                <tr class="clickable-row" onclick="location.href = '@Url.ActionLink("FindTicketChat", "Reply", new { Id=ticket.Id })'">
+                <td>@ticket.UserEmail</td>
+                <td>@ticket.Subject</td>
+                <td class="column">@ticket.Body</td>
+                <td>@ticket.TimeStamp</td>
+
+                </tr>
+               @* <button type="submit" class="btn btn-outline-danger">Close</button>*@
+           </form>
+          
+            
+        }  
+    </tbody>
+</table>
+
+            <style>
+
+                table {
+            table-layout:fixed;
+            width: 150px;
+        }
+
+
+    .clickable-row {
+        cursor: pointer;
+    }
+
+    .column{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    th:nth-child(1) {
+        width: 15%; /* Adjust the width for the first column */
+    }
+
+    th:nth-child(2) {
+        width: 20%; /* Adjust the width for the second column */
+    }
+
+    th:nth-child(3) {
+        width: 45%; /* Adjust the width for the second column */
+    }
+
+    th:nth-child(4) {
+        width: 20%; /* Adjust the width for the fourth column */
+    }
+
+</style>

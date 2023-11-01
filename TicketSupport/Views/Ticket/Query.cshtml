@@ -1,0 +1,27 @@
+﻿<div style="margin: 0 auto;width:fit-content;width:60%;">
+    <form asp-action="Submit" enctype="multipart/form-data">
+        <div class="form-group">
+            <h3>Create Ticket</h3>
+            <label class="col-form-label mt-4" for="inputDefault">Ticket subject</label>
+            <input type="text" class="form-control" placeholder="Subject"name="subject" id="subject">
+
+            <label for="exampleSelect1" class="form-label mt-4">Category</label>
+            <select class="form-select" id="type" name="type">
+                <option value="" disabled selected>Category</option>
+                <option value="Finance">Finance</option>
+                <option value="AccountForm">Account</option>
+            </select>
+
+            <label for="exampleTextarea" class="form-label mt-4">Additional information..</label>
+            <textarea class="form-control" id="body" name="body" rows="3"></textarea>
+
+            <label for="formFile" class="form-label mt-4">Support documents</label>
+            <input class="form-control" type="file" id="formFiles" name="formFiles">
+            <br />
+            <div class="d-grid gap-2">
+                <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+

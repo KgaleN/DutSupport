@@ -1,0 +1,41 @@
+﻿@model Support.Models.SupportEmployee
+
+<div>
+    <link href="./support-employee-statistics.css" rel="stylesheet" />
+    <div class="support-employee-statistics-container">
+        <div class="support-employee-statistics-container1">
+            <img alt="profile"
+                 src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxwb3J0cmFpdHxlbnwwfHx8fDE2MjYzNzg5NzI&amp;ixlib=rb-1.2.1&amp;w=200"
+                 class="support-employee-statistics-image" />
+            <div class="support-employee-statistics-testimonial-card">
+                <span class="support-employee-statistics-id">id</span>
+                <div class="support-employee-statistics-testimonial">
+                    <span class="support-employee-statistics-name">@Model.Name</span>
+                    <span class="support-employee-statistics-role">@Model.Role</span>
+                </div>
+                <span class="support-employee-statistics-email">@Model.Email</span>
+            </div>
+        </div>
+        <div class="support-employee-statistics-stats">
+            <div class="support-employee-statistics-open-stat">
+                <h1 class="support-employee-statistics-text">@Model.AssignedTickets.Where(ticket=>ticket.Status==TicketStatus.Open).Count()</h1>
+                <span class="support-employee-statistics-text1">Open</span>
+            </div>
+            <div class="support-employee-statistics-hold-stat">
+                <h1 class="support-employee-statistics-text2">@Model.AssignedTickets.Where(ticket=>ticket.Status==TicketStatus.OnHold).Count()</h1>
+                <span class="support-employee-statistics-text3">On Hold</span>
+            </div>
+            <div class="support-employee-statistics-closed-stat">
+                <h1 class="support-employee-statistics-text4">@Model.AssignedTickets.Where(ticket=>ticket.Status==TicketStatus.Closed).Count()</h1>
+                <span class="support-employee-statistics-text5">Closed</span>
+            </div>
+            <div class="support-employee-statistics-total-stat">
+                <h1 class="support-employee-statistics-text6">@Model.AssignedTickets.Count()</h1>
+                <span class="support-employee-statistics-text7">Total</span>
+            </div>
+        </div>
+        <span class="support-employee-statistics-text8">Number of tickets</span>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/displayAllSupportEmployees.css" />

@@ -1,0 +1,301 @@
+﻿@model Support.Models.ViewModels.ChatViewModel
+
+<div>
+  
+    <div class="support-employee-statistics-container">
+       
+            <div class="initial-ticket">
+            <img src="@Url.Content("/images/user-circle-svgrepo-com.svg")" alt="" class="img" />
+            @foreach (var ticket in Model.ticket)
+            {
+            <div class="ticket-subject">@ticket.Subject</div>
+            <div class="ticket-priority">@ticket.TicketPriority</div>
+            <div class="ticket-email">@ticket.UserEmail</div>
+            <div class="ticket-body">
+                 <span>@ticket.Body</span>
+            </div>
+            <div class="ticket-date">
+                 <span>@ticket.TimeStamp</span>
+            </div>
+            
+            }
+            </div>
+
+
+
+        @foreach (var reply in Model.chat)
+        {
+            <div class="chats-container">
+                @foreach (var response in reply.Responses)
+                {
+                    <div class="card container2">
+                        <div class="card-body">
+                            <h4 class="response-email">@response.EmailSender</h4>
+                            <p class="response-body">@response.Body</p>
+                        </div>
+                        <div class="response-time-date">
+                            <p>2023/10/05 15:31:55</p>
+                        </div>
+                    </div>
+                }
+
+
+            </div>                  
+        } 
+        <br/>
+        <button id="openModalBtn">reply</button>
+
+            <div id="emailModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="model-header">
+                    <h2>Compose Email
+                        <span class="close" id="closeModalBtn">×</span>
+                    </h2>   
+                    
+            </div>
+
+
+                <form asp-action="SendReply">
+                    @foreach (var ticket in Model.ticket)
+                    {
+                        <input type="hidden" name="id" value="@ticket.Id" />
+                        
+                  
+                        <div class="recipient">
+                        <label for="recipient">Recipient:</label>
+                        <input type="text" id="recipient" name="recipient" placeholder="@ticket.UserEmail" value="@ticket.UserEmail" readonly>
+                        </div>
+                    }
+                    <br />
+                
+                    <div class="subject">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" placeholder="Enter subject"><br>
+                    </div>
+                    <br />
+               
+                    <div class="message">
+                        <label for="message">Message:</label>
+                        <textarea id="body" name="body" rows="5" placeholder="Compose your email"></textarea><br>
+                    </div>
+                    <br />
+                
+
+                <input type="submit" value="Send Email">
+            </form>
+        </div>
+    </div>
+          
+  </div>
+
+
+
+
+
+</div>
+   
+
+<style>
+    .support-employee-statistics-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+    .initial-ticket
+    {
+    top: 69px;
+    right: -3px;
+    width: 100%;
+    position:absolute;
+    box-shadow: 0px 0px 10px 0px #d4d4d4;
+    overflow: hidden;
+    margin-bottom: 25px;
+    }
+
+    .ticket-subject
+    {
+       
+        top: 7%;
+        left: 3%;
+        max-width: 26cm;
+        position: relative;
+        font-size: 34px;
+        font-style: normal;
+        font-weight: 300;
+       
+    }
+
+    .ticket-priority
+    {
+       
+        top: -50px;
+        left: 90%;
+        max-width:3.5cm;
+        
+        position: relative;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: 200;
+    }
+
+    .ticket-email 
+    {
+        
+        top: 45%;
+        left: 10%;
+        max-width: 15cm;
+        position: relative;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+    }
+
+    .ticket-body {
+        
+        float:left;
+        top: 65%;
+        left: 10%;
+        position: relative;
+        font-size: 15px;
+        max-width: 20cm;
+    }
+
+    .ticket-date 
+    {
+       
+        top: 75%;
+        left: 90%;
+        max-width: 120px;
+        position: relative;
+        font-size: 10px;
+    }
+    
+    .container2 {
+        margin-bottom:8px;
+        box-shadow: 0px 0px 10px 0px #d4d4d4;
+        width:45cm;        
+    }
+
+    .img{
+        width: 2cm;
+        height: 3cm;
+        top: 70px;
+        left: 20px;
+        position: absolute;
+    }
+
+    .chats-container{
+        top: 45%;
+        left: -3px;
+        position: absolute;
+        margin-bottom:10px;
+    }
+
+    .response-email {
+        max-width: 15cm;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+    }
+
+    .response-body{
+        font-size: 15px;
+        max-width: 20cm;
+    }
+
+    .response-time-date {
+        font-size: 10px;
+        right: 25%;
+        bottom: 8%;
+        position: absolute;
+        max-width: 120px;
+    }
+
+   .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with a little bit of transparency */
+}
+
+/* Style for the modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%; /* Could be adjusted to your liking */
+}
+
+/* Close button style */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.recipient {
+        
+
+}
+
+.subject {
+        
+}
+
+.message {
+       
+}
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+
+<script>
+    // Get the modal and button elements
+    var modal = document.getElementById('emailModal');
+    var openModalBtn = document.getElementById('openModalBtn');
+    var closeModalBtn = document.getElementById('closeModalBtn');
+
+    // When the user clicks the button, open the modal
+    openModalBtn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on the close button, close the modal
+    closeModalBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

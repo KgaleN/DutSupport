@@ -1,0 +1,146 @@
+﻿@model LeadViewModel
+
+
+
+<body style="background:#e7e7e7; text-align:center">
+    
+   @* <form asp-action="AssignAll">
+        <div>
+            <button type="submit" class="btn btn-success assign-button">Random Assign</button>
+        </div>
+    </form>*@
+    <div>
+        <button type="submit" class="btn btn-success assign-button">Random Assign</button>
+    </div>
+    <table class="table table-hover" id="tblProduct">
+        <thead>
+            <tr>
+                <th scope="col">Ticket no.</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Body</th>
+                <th scope="col">Docs</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Assign</th>
+            </tr>
+        </thead>
+        <tbody>
+@*         
+            @foreach (var item in Model.tickets)
+           {
+            <tr class="table-active">
+                <th scope="row">@item.Id</th>
+                <td>@item.Subject</td>
+                    <td class="body-cell">
+                        @item.Body
+                    </td>
+                        <td class="body-cell expand">
+                         @foreach(var attachment in item.Attachments){
+                        <a href="@Url.Action("DisplayAttachment", "Ticket", new {AttachmentId =attachment.Id })">
+                                @attachment.FileName
+                        </a> 
+                        <br />
+                        }
+                        
+                    </td>
+                <td>
+    <div class="btn-group more" role="group" aria-label="Basic radio toggle button group">
+    <input type="radio" class="btn-check" value="Low" name="btnradio-@item.Id" id="btnradio1-@item.Id" autocomplete="off">
+    <label class="btn btn-outline-primary more" for="btnradio1-@item.Id">Low</label>
+    <input type="radio" class="btn-check" value="Medium" name="btnradio-@item.Id" id="btnradio2-@item.Id" autocomplete="off">
+    <label class="btn btn-outline-primary more" for="btnradio2-@item.Id">Medium</label>
+    <input type="radio" class="btn-check" value="High" name="btnradio-@item.Id" id="btnradio3-@item.Id" autocomplete="off">
+    <label class="btn btn-outline-primary more" for="btnradio3-@item.Id">High</label>
+    </div>
+    </td>
+    <td> <button type="button" class="btn btn-success assign-button" data-id="@item.Id">Assign</button></td>
+            </tr>*@
+            @foreach (var item in Model.tickets)
+            {
+               <div id="popup-@item.Id" class="popup-container">
+                    <div class="popup-content">
+                        <div class="list-group">
+                           @foreach (var staff in Model.supporters)
+                            {
+                                <form asp-action="AssignTicket">
+                                    <input type="hidden" name="ticketId" value="@item.Id" />
+                                    <input type="hidden" name="supportId" value="@staff.Id" />
+                                    <input type="hidden" name="selectedRadio" id="selected-radio-@item.Id" />
+                                    <button type="submit" class="list-group-item list-group-item-action">
+                                        <div class="button-content">
+                                            <div class="name">@staff.Name</div>
+                                            <div class="count">Tickets(@staff.AssignedTickets.Count)</div>
+                                        </div>
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                        <button class="close-popup-button">Close</button>
+                    </div>
+                </div>
+           }
+        </tbody>
+    </table>
+    <script src="~/js/displayTicketsScript.js"></script>
+    <link rel="stylesheet" href="~/css/displayTicket.css" />
+      <script src="~/js/microsoft/signalr/dist/browser/signalr.js"></script>
+      <script src="~/js/dashboard.js"></script>
+
+
+
+    <style>
+    
+        table {
+            table-layout:fixed;
+            width: 150px;
+        }
+
+        th, td {
+            text-align: left;
+           
+        }
+
+            th:nth-child(1) {
+
+                width: 10%; /* Adjust the width for the first column */
+            }
+
+            th:nth-child(2) {
+                width: 20%; /* Adjust the width for the second column */
+            }
+             th:nth-child(3) {
+                width: 30%; /* Adjust the width for the second column */
+            }
+
+            th:nth-child(4) {
+               
+                width: 15%; /* Adjust the width for the fourth column */
+            }
+
+            th:nth-child(5) {
+            
+                width: 15%; /* Adjust the width for the fifth column */
+            }
+
+      
+        .expand {
+             white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;            
+        }
+
+        .more {
+            width:100%;
+            height:100%;
+            font-size:small;
+            padding:5px;
+           
+        
+        }
+
+
+
+    </style>
+
+</body>
+
+    
